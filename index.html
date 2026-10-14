@@ -325,6 +325,45 @@
     </div>
   </div>
 
+  <!-- Liver nuclei segmentation -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>3D Nuclei Segmentation in Human Liver Tissue</h3>
+        <div class="meta">Image-analysis project · two-channel fluorescence volume</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built · result not validated</span>
+        <span class="badge tag">Registration · correction · segmentation</span>
+      </div>
+    </div>
+    <div class="imgrow">
+      <img src="img17.png" alt="Raw nuclei channel showing a strong illumination gradient, much brighter on the right side of the field">
+      <img style="object-fit:contain;background:#fff" src="img18.png" alt="Raw nuclei channel beside the flat-field corrected version, where the gradient is still clearly present">
+      <img style="object-fit:contain;background:#fff" src="img19.png" alt="Intensity histograms of the nuclei channel without and with background masking, showing the Otsu threshold moving from 0.263 to 0.393">
+      <img src="img20.png" alt="Final labelled output of 1,547 objects, all confined to the over-illuminated right-hand strip of the field">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>An image-analysis pipeline for a 3D, two-channel (nuclei + membrane) fluorescence volume of human liver tissue, built to align the channels, remove bleed-through and uneven illumination, and segment individual nuclei so per-nucleus volume can be measured.</li>
+          <li>Reported as-is: the registration, crosstalk and segmentation stages run, but the illumination correction did not work, so the final 1,547 labelled objects are not validated nuclei.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>Channel alignment: phase correlation on maximum-intensity projections measured the XY shift between channels (only a couple of pixels), then applied it to the whole membrane volume so the pixel-by-pixel crosstalk subtraction compares the same structures.</li>
+          <li>Crosstalk: nucleus-shaped dots in the membrane channel were dye bleed-through; the coefficient was estimated by least squares rather than chosen by hand (α = 1.46). An α above 1 is a warning sign, and a unit mismatch in the subtraction was traced and is queued to fix.</li>
+          <li>Thresholding: plain Otsu gave 0.263 because ~90% of the volume is empty background and dominates the histogram. Masking out everything below 0.18 and running Otsu on tissue pixels only moved it to 0.393, a more sensible nucleus/background split.</li>
+          <li>Segmentation: distance transform, marker detection and 3D watershed behaved as expected on the mask they were given.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="concept-flag">What went wrong: the flat-field correction (divide by a Gaussian-blurred background, after 10× downsampling and sigma 30, roughly a 300 px blur on a 670 px image) produced a near-flat background, so it rescaled the image rather than correcting it and the gradient survived. The threshold therefore only cleared in the bright right-hand strip, and the nuclei in the centre of the field were missed. My "gradient removed" profile plot was also invalid evidence: wrong axis, and normalised to 0–1 against raw counts in the thousands. Fix identified: sigma ≈ 10 with no Z downsampling, then re-run; the check will be per-nucleus volumes landing near the 200–500 µm³ the literature reports for hepatocytes.</div>
+  </div>
+
   <!-- EEG BCI -->
   <div class="card">
     <div class="card-head">
