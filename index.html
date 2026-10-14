@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tahmid Huq Portfolio</title>
+<meta name="description" content="Tahmid Ul Huq — Biomedical Engineering, CUHK. Selected projects and work.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  /* Layout: single-column editorial feed — hero, regulatory coursework note,
+     project cards ordered by relevance, compact "other work" list, contact footer */
+  :root{
+    --bg:#15130F; --surface:#1C1812; --ink:#ECE6D8; --ink-dim:#A89C84;
+    --line:#352E21; --accent:#C9973F; --accent-soft:#2B2210;
+    --built:#C9973F; --concept:#B5563A; --concept-soft:#2E1C14;
+    --font-display:'Space Grotesk',system-ui,sans-serif;
+    --font-body:'IBM Plex Sans',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.55; margin:0; padding-inline:20px; padding-block:48px}
+  h1,h2,h3{font-family:var(--font-display); text-wrap:balance; margin:0}
+  .wrap{max-width:760px; margin:0 auto}
+
+  /* Hero */
+  .hero{margin-bottom:40px}
+  .hero-top{display:flex; align-items:center; gap:20px}
+  .hero-photo{width:128px; height:128px; border-radius:50%; object-fit:cover; object-position:50% 25%; border:2px solid var(--surface); box-shadow:0 0 0 1px var(--line); flex-shrink:0}
+  .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+  .hero h1{font-size:clamp(28px,5vw,40px); margin-top:8px; font-weight:600}
+  .hero p.lede{color:var(--ink-dim); font-size:16px; max-width:62ch; margin-top:14px}
+  .contact{display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:18px; font-family:var(--font-mono); font-size:13px; color:var(--ink-dim)}
+  .contact a{color:var(--ink-dim); text-decoration:underline; text-decoration-color:var(--line)}
+
+  /* Hero + coursework sidebar */
+  .herogrid{display:grid; grid-template-columns:1fr 240px; gap:28px; align-items:start; margin-bottom:40px}
+  @media (max-width:680px){ .herogrid{grid-template-columns:1fr} }
+
+  .note{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px}
+  .note .label{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:8px}
+  .note p{margin:0; font-size:13px; color:var(--ink)}
+  .note ul{margin:0; padding-left:16px; font-size:13px; color:var(--ink)}
+  .note li{margin-bottom:7px}
+  .note li:last-child{margin-bottom:0}
+  .note .course{font-weight:600}
+  .note .standards{font-family:var(--font-mono); font-size:11.5px; color:var(--accent)}
+
+  /* Section headers */
+  .section-head{display:flex; align-items:baseline; gap:12px; margin:48px 0 18px}
+  .section-head h2{font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); font-weight:600; font-family:var(--font-mono)}
+  .section-head .rule{flex:1; height:1px; background:var(--line)}
+
+  /* Project cards */
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px; margin-bottom:22px}
+  .card-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px}
+  .card-head h3{font-size:19px; font-weight:600}
+  .meta{font-family:var(--font-mono); font-size:12px; color:var(--ink-dim); margin-top:4px}
+  .badges{display:flex; gap:8px; flex-wrap:wrap}
+  .badge{font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap}
+  .badge.built{background:var(--accent-soft); color:var(--built)}
+  .badge.concept{background:var(--concept-soft); color:var(--concept)}
+  .badge.tag{background:var(--bg); color:var(--ink-dim); border:1px solid var(--line)}
+
+  .imgrow{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin:16px 0}
+  .imgrow img{width:100%; height:150px; object-fit:cover; border-radius:8px; border:1px solid var(--line); background:var(--bg)}
+  .imgrow.single img{height:220px; object-fit:contain; background:var(--bg)}
+
+  .whathow{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:14px}
+  @media (max-width:560px){ .whathow{grid-template-columns:1fr} }
+  .whathow h4{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin:0 0 8px}
+  .whathow ul{margin:0; padding-left:18px; font-size:14.5px; color:var(--ink)}
+  .whathow li{margin-bottom:6px}
+  .whathow li:last-child{margin-bottom:0}
+
+  .concept-flag{font-size:13px; color:var(--concept); background:var(--concept-soft); border-radius:8px; padding:10px 12px; margin-top:14px; font-weight:500}
+
+  /* Other work list */
+  .otherlist{display:flex; flex-direction:column; gap:0}
+  .otherrow{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--line)}
+  .otherrow:last-child{border-bottom:none}
+  .otherrow .ot{font-weight:600; font-size:15px}
+  .otherrow .od{color:var(--ink-dim); font-size:13.5px; margin-top:3px}
+  .otherrow .om{font-family:var(--font-mono); font-size:12px; color:var(--ink-dim); white-space:nowrap; padding-top:2px}
+
+  footer{margin-top:56px; padding-top:24px; border-top:1px solid var(--line); color:var(--ink-dim); font-size:13px; font-family:var(--font-mono)}
+</style>
+</head><body>
+<div class="wrap">
+
+  <div class="herogrid">
+    <div class="hero" style="margin-bottom:0">
+      <div class="hero-top">
+        <img class="hero-photo" src="img01.png" alt="Tahmid Ul Huq">
+        <div>
+          <div class="eyebrow">Engineering Portfolio</div>
+          <h1>Tahmid Ul Huq</h1>
+        </div>
+      </div>
+      <p class="lede">Biomedical engineer working across hardware, signal processing, and applied machine learning: wearable sensors and electrode interfaces, microfluidic diagnostics, biomedical computer vision, and EEG-based neural interfaces — from SolidWorks CAD and fabrication through to data pipelines and classifier evaluation. I'm also Director and co-founder of a medtech startup building AI-assisted IV training tools, and Project &amp; Operations Lead at an ed-tech company in Hong Kong. The notes below follow the same what/how structure I use in my own lab notebooks.</p>
+      <div class="contact">
+        <span>(852) 6400-3421</span>
+        <a href="mailto:tahmidintrna@gmail.com">tahmidintrna@gmail.com</a>
+        <a href="https://linkedin.com/in/tahmid-ul-huq">linkedin.com/in/tahmid-ul-huq</a>
+        <span>Hong Kong</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <div class="label">Relevant coursework</div>
+      <ul>
+        <li>Global Medical Device Regulatory Affairs</li>
+        <li>Wearable Biomedical Devices &amp; Personalized Healthcare</li>
+        <li>EEG acquisition &amp; brain-computer interfaces</li>
+        <li>Medical device design, prototyping &amp; technical documentation</li>
+        <li>Final Year Project I &amp; II (microfluidics)</li>
+      </ul>
+      <p style="margin-top:10px">The regulatory affairs course covered FDA 510(k), EU MDR, and Japan PAL submissions, with hands-on work applying ISO 13485 (quality management), ISO 14971 (risk management), and IEC 60601 (electrical safety) — including selecting the harmonized standard set for a device's own CE technical file. That design-record and V&amp;V documentation discipline carried directly into my Centri Medical internship. <span class="standards">ISO 13485 · ISO 14971 · IEC 60601</span></p>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Featured work</h2><div class="rule"></div></div>
+
+  <!-- Droplet microfluidics -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>Droplet Generation Using Centrifugal Microfluidics</h3>
+        <div class="meta">Final-year project (CUHK) · Prof. Aaron Ho team</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+      </div>
+    </div>
+    <div class="imgrow">
+      <img src="img02.png" alt="Schematic of the three-layer centrifugal microfluidic chip: aqueous chamber, silicon micropore chip, mineral oil chamber, droplets forming as the aqueous phase is forced through the pore">
+      <img src="img03.png" alt="Side-by-side microscope comparison: the original design failing to generate droplets at higher rotation speed versus the redesigned three-compartment chip generating stable droplets at the same speed">
+      <img src="img04.png" alt="ADDMS MATLAB output: 1,570 droplets automatically detected and bounded in a single microscope frame, 50 µm pore at 800 rpm">
+      <img src="img05.jpg" alt="ADDMS MATLAB output: individual droplet diameters measured in micrometers, each droplet labeled and circled, with a 100 µm scale bar">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>A two-generation centrifugal microfluidic platform (Thesis I → II, CUHK BME final year project) integrated with a silicon micropore for generating microdroplets, targeting diagnostics, digital PCR, and material synthesis applications.</li>
+          <li>ADDMS, a companion MATLAB image-analysis pipeline, to enhance microscope imagery and automatically detect, count, and size droplets, replacing manual measurement.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>PDMS chips CAD-modeled in SolidWorks, CNC-machined, and bonded via oxygen plasma; the first single-chamber design (GEN6) stopped producing droplets above 250 rpm, so I redesigned to a three-compartment chip (GEN10) that kept each fluid stable feeding the micropore.</li>
+          <li>GEN10 generated droplets across the full 200–800 rpm range and 30/50/60 µm pore sizes, where GEN6 failed beyond 250 rpm — up to 1,570 droplets counted in a single 50 µm-pore sample at 800 rpm.</li>
+          <li>ADDMS enhances each raw microscope frame (AI upscaling, non-local means denoising, bicubic upscaling, sharpening, adaptive histogram equalization, Wiener filtering), then counts the full frame via Canny edge detection with watershed segmentation to separate touching droplets (1,570 detected and bounded in the sample frame shown above), and measures each droplet's diameter via HSV thresholding and region properties, scale-calibrated against a 100 µm reference bar, with individual droplets labeled in µm.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Microneedle -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>Wearable Microneedle for Glucose and CVD Detection</h3>
+        <div class="meta">Coursework concept design</div>
+      </div>
+      <div class="badges">
+        <span class="badge concept">Concept design — not built</span>
+        <span class="badge tag">Wearable biosensor architecture</span>
+      </div>
+    </div>
+    <div class="imgrow single">
+      <img src="img06.png" alt="System diagram of the wearable microneedle device showing Bluetooth module, circuit board, and microneedle array into the dermis">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>A dual-biomarker wearable microneedle patch for continuous glucose and C-reactive protein (CRP) monitoring via interstitial fluid (ISF), aimed at diabetic cardiovascular disease — glucose as the metabolic marker, CRP as an inflammation marker for cardiovascular risk, read from one integrated PCB.</li>
+          <li>Carried from a first design through a second-generation SolidWorks CAD assembly (microneedle array, PCB, rechargeable coil, battery, support and top covers) sized for a wearable form factor.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>Needles CNC-machined on PMMA for biocompatibility and mechanical stability, sputter-coated with gold for conductivity, with an Ag/AgCl reference electrode formed by chlorination; working electrode built on an AD5940 electrochemical-analog-front-end PCB.</li>
+          <li>Glucose sensing: electrodeposited PPD and immobilized glucose oxidase detect H₂O₂ generated by glucose oxidation, amplified and digitized on-board — the same amperometric, mediator-based detection principle (Prussian Blue-catalyzed H₂O₂ reduction) I ran and calibrated by hand in the companion lab session.</li>
+          <li>CRP sensing: neutravidin-anchored CRP antibodies on a separately gold-deposited site, read via electrochemical impedance spectroscopy — CRP binding changes sensor capacitance, with a target detection limit of 0.8 mg/mL in ISF-like medium, drawn from the reference literature behind the design.</li>
+          <li>Data transmitted wirelessly from the shared PCB to a connected device for both biomarkers.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="concept-flag">This stayed at the system-architecture, literature-review, and CAD stage — through a second generation of the assembly — rather than a physical build. I'm including it because that translation process, from a clinical need and primary literature into electrode chemistry, PCB architecture, and a sensing circuit, is the same kind of thinking a wearable neuromodulation concept needs, even though the sensing modality is different from stimulation.</div>
+  </div>
+
+  <!-- VascuTech / DualVein -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>VascuTech Medical — VascuAI &amp; DualVein</h3>
+        <div class="meta">Director &amp; co-founder · Hong Kong · 2025–present</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">Medtech startup · AI + hardware</span>
+      </div>
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>Co-founded and direct VascuTech Medical, building two connected products to make IV cannulation training accessible: VascuAI, an AI-guided training platform (LLM chatbot, phase detection, mobile workflow), and DualVein, an affordable near-infrared vein-visualization device — aimed at the ~40% first-attempt IV failure rate worldwide and the >HK$15,000 price of commercial vein finders that puts them out of reach for most training environments.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>DualVein hardware: a &lt;800 g, ~HK$2,800 3D-printed NIR trans-illumination device; our team's best segmentation model (a fine-tuned Segment Anything Model) reached a 0.75 Dice score, and the system hit 75%+ practical vein-visualization accuracy against a 52% baseline for newly trained nurses working unguided.</li>
+          <li>Validated through 60+ structured interviews with nursing students, clinicians, and educators across Hong Kong and Thailand; the team placed Top 4 (Best Innovation, Best Poster, Best Pitching, 2nd Best Presentation) at IET YPEC 2025.</li>
+          <li>As Director, I lead company strategy, incubation/funding (HSITP SPIN programme), partnerships, and coordination across the hardware, software, and business-development team.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Data &amp; ML pipelines</h2><div class="rule"></div></div>
+
+  <!-- mCellSeg -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>mCellSeg — Two-Stage Cell Detection &amp; Segmentation</h3>
+        <div class="meta">Independent project · public mCellSeg microscopy dataset</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">Detection + segmentation</span>
+      </div>
+    </div>
+    <div class="imgrow">
+      <img src="img07.jpg" alt="YOLOv8n predicted cell bounding boxes on a validation microscopy image">
+      <img src="img08.png" alt="Near-perfect MedSAM segmentation case on a dense field of HEK cells, recall 0.97">
+      <img src="img09.png" alt="Detection confusion matrix across the 40 held-out validation images">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>A two-stage pipeline that finds every cell in a microscopy image (YOLOv8n) and then draws its exact outline (a MedSAM model, fine-tuned for this task).</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>Measured on all 40 held-out validation images: detection precision 0.801, recall 0.809; 2,562 of 3,167 ground-truth cells correctly found and segmented.</li>
+          <li>End-to-end segmentation quality: mean Dice 0.635, median 0.766 (1.0 = perfect outline overlap), reproducibility confirmed by rerunning training with a second random seed.</li>
+          <li>Evaluated across both cell types in the dataset (HEK and HUVEC) and across difficulty levels, from near-perfect fields to dense, low-contrast, and confluent cases.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- WBC pipeline -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>WBC Detection &amp; Classification — Paper Replication</h3>
+        <div class="meta">Independent project · replicating a 2025 Nature Scientific Reports paper</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">Detection + classification + generalization audit</span>
+      </div>
+    </div>
+    <div class="imgrow">
+      <img src="img10.png" alt="End-to-end pipeline output on a BCCD blood smear image: a multi-lobed neutrophil-looking cell labeled Monocyte at 0.90 confidence">
+      <img src="img11.png" alt="Bar chart of predicted WBC subtype distribution on BCCD, skewed toward Monocyte and Lymphocyte with zero Neutrophil predictions">
+      <img src="img12.png" alt="Histogram of classifier confidence scores on BCCD predictions">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>Replicated a two-stage blood-cell pipeline: YOLOv7 detects RBCs/WBCs/platelets (BCCD dataset), EfficientNetV2-S classifies each WBC into 5 subtypes (Raabin-WBC dataset) — built as a faithful replication, not a novel contribution.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>Detection baseline: precision 0.823, recall 0.899, mAP@0.5 0.910. Classification baseline: 98.3% accuracy, 97.3% macro-F1 on the dataset's own held-out test split (TestA).</li>
+          <li>The paper's own proposed architecture improvements (attention+SIoU for detection, ASPP+balanced loss for classification) showed no detectable gain over the vanilla baselines at 3 seeds each — reported as an honest null result rather than overstated.</li>
+          <li>Pushed past the paper's own evaluation: on a second, different-microscope test split, both classifiers collapsed to ~14% and ~9% accuracy (from ~98%), and I traced a plausible cause to a measurable RGB color-channel shift between the two splits.</li>
+          <li>Also showed the classifier's confidence is decoupled from correctness under that shift (incorrect predictions averaged higher confidence than correct ones) — which is why the end-to-end pipeline's subtype predictions on BCCD (shown above) are reported as unvalidated rather than taken at face value.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRISPR-Cas13 guide RNA pipeline -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>In Silico CRISPR-Cas13 Guide RNA Design Pipeline</h3>
+        <div class="meta">Independent project · no wet-lab component</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">Bioinformatics · computational filtering</span>
+      </div>
+    </div>
+    <div class="imgrow single">
+      <img src="img13.png" alt="Results slide: from 8,264 candidate guides generated across three transcripts, filtered down to 334 (4.0%) high-confidence guides, with a bar chart of candidates per transcript, a ranked top-candidate-guide table, and an engineering note on known limitations">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul><li>A seven-stage computational pipeline (Python, pandas, BioPython, RNAfold/ViennaRNA, Ensembl REST &amp; Variation APIs) that generates and ranks candidate Cas13 guide RNAs against three disease-associated transcripts, to prioritize guides for synthesis before any wet-lab work.</li></ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>23-nt sliding window generated 8,264 candidate guides across the three transcripts, filtered by efficiency, off-target hits, RNA accessibility, and SNP overlap down to 334 passing all thresholds.</li>
+          <li>Caught two real engineering issues during QA rather than reporting the raw numbers at face value: off-target scoring currently checks each guide against one reference transcript rather than a full transcriptome (closer to a self-consistency check than a true specificity screen), and the SNP-overlap filter was silently defaulting every guide to "no overlap" instead of returning real API results — both flagged as the next hardening pass before any guide goes to synthesis.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- EEG BCI -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>EEG Brain-Computer Interface for Motor-Imagery Rehabilitation</h3>
+        <div class="meta">Co-authored · RNR 2024</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">EEG · classification</span>
+      </div>
+    </div>
+    <div class="imgrow single">
+      <img src="img14.png" alt="EEG headcap used for the brain-computer interface project">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul><li>EEG-based BCI classifying four motor-imagery states (left hand, right hand, jump, relax) to control a character in the game Brainrunners in real time, aimed at gamifying motor-imagery stroke rehabilitation.</li></ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>10-20 system electrodes at C3/C4 to localize left/right motor cortex; features compared across Continuous Wavelet Transform and Power Spectral Density (alpha 8–13 Hz, beta 13–30 Hz bands).</li>
+          <li>Random Forest (45 trees, max depth 6) outperformed SVM and k-NN; evaluated via a 200-trial, 30%-holdout train/test split with confusion matrices, precision, recall, and F1 per motor-imagery class — jump was the most reliably classified action.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Other work</h2><div class="rule"></div></div>
+
+  <div class="card">
+    <div class="imgrow single">
+      <img src="img15.png" alt="Redesigned centrifuge fitter slot CAD model and the manufactured part in the centrifuge">
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul><li>Redesigned the centrifuge fitter slot to hold 18.5×18.5 mm microfluidic devices, up from the original 13×13 mm limit.</li></ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul><li>Modeled in SolidWorks and 3D-printed; chip seats at the fitter slot's center gap, positioned inside a tube within the centrifuge rotor.</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="imgrow single">
+      <img src="img16.png" alt="IMU and EMG arm brace worn on a forearm, labeled: inertial measurement unit, surface EMG electrodes, button toggle module, and Arduino Leonardo with shielding board">
+    </div>
+    <div class="card-head" style="margin-top:14px">
+      <div>
+        <h3 style="font-size:17px">GameTherapy — Gamified Stroke Rehabilitation Arm Brace</h3>
+        <div class="meta">Team project (CUHK) · Medical Instrumentation &amp; Design course, Group 1 of 7</div>
+      </div>
+      <span class="badge built">Built &amp; tested</span>
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul><li>An IMU + sEMG arm brace that converts elbow movement and forearm contraction into real-time WASD/Space keystrokes, so a stroke patient's rehab exercises directly control a browser game, extending Muscle Guard's EMG sensing into a full game-control input.</li></ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>Gyroscope (MPU6050) tracks elbow tilt direction for WASD; a forearm sEMG channel above a set threshold triggers Space; an Arduino Leonardo with a custom shielding board and PH2.0/XH2.54 connectors reads both and emits native USB keystrokes.</li>
+          <li>Built and worn as a working brace, driving a racing-style browser game ("Crazy Motorcycle") as the rehab interface — demoed live at a class competition with no connection issues during trial runs or on the day.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Muscle Guard -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3 style="font-size:17px">Muscle Guard — sEMG Fatigue Detection Wearable</h3>
+        <div class="meta">Independent project · Hong Kong · 2024</div>
+      </div>
+      <div class="badges">
+        <span class="badge built">Built &amp; tested</span>
+        <span class="badge tag">Wearable electrode interface</span>
+      </div>
+    </div>
+    <div class="whathow">
+      <div>
+        <h4>What</h4>
+        <ul>
+          <li>A wearable system that monitors muscle activity via surface EMG and flags early signs of fatigue, with future NMES integration considered for recovery and relaxation.</li>
+          <li>3D-printed enclosure housing an Arduino Nano, embedded into a multi-layered pocket sewn into an armband for comfort and compactness.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>How</h4>
+        <ul>
+          <li>EMG sampled at 1000 Hz, processed in 250 ms windows to extract RMS and mean power frequency features.</li>
+          <li>Fatigue classified via linear regression on slope and R²; tested on 10 healthy subjects performing isometric forearm contractions.</li>
+          <li>72% fatigue-detection accuracy and 262 ms processing delay — both short of target, reported as such.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    tahmidintrna@gmail.com · (852) 6400-3421 · linkedin.com/in/tahmid-ul-huq
+  </footer>
+
+</div>
+</body></html>
